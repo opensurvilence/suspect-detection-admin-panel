@@ -7,12 +7,10 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataContacts } from "../../data/mockData";
 import { useTheme } from "@mui/material";
-import { useState } from "react";
 
 const Form = () => {
 
   const theme = useTheme();
-  const [email,setEmail] = useState("");
   const colors = tokens(theme.palette.mode);
 
   const columns = [
@@ -40,82 +38,23 @@ const Form = () => {
       headerName: "Email",
       flex: 1,
     },
+    
   ];
   // const
 
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
-  const deleteUserByEmail = async (email) => {
-    try {
-      const response = await fetch('/user/delete', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email })
-      });
-      const data = await response.json();
-      alert(data.message); // prints success message from backend
-    } catch (error) {
-      alert(error);
-    }
+  const handleFormSubmit = (values) => {
+    console.log(values);
   };
 
-  const handleNameChange = (event) => {
-    setEmail(event.target.value);
-  };
 
   return (
     <>
     <Box m="20px">
-      <Header title="DELETE USER" subtitle="Delete Users from Existing Users" />
-
-      <Formik
-        onSubmit={deleteUserByEmail}
-        initialValues={initialValues}
-        validationSchema={checkoutSchema}
-      >
-        {/* {({
-          values,
-          errors,
-          touched,
-          handleBlur,
-          handleChange,
-          handleSubmit,
-        }) => ( */}
-          <form onSubmit={deleteUserByEmail}>
-            <Box
-              display="grid"
-              gap="30px"
-              gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-              sx={{
-                "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-              }}
-            >
-
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Email"
-                onChange={handleNameChange}
-                value={email}
-                name="email"
-                sx={{ gridColumn: "span 2" }}
-              />
-               <Button type="submit" color="secondary" variant="contained">
-                DELETE User
-              </Button>
-            </Box>
-
-          </form>
-        {/* )} */}
-      </Formik>
-    </Box>
-    <Box m="20px">
       <Header
         title="Users"
-        subtitle="List of Users After delete operation"
+        subtitle="List of Users "
       />
       <Box
         m="40px 0 0 0"

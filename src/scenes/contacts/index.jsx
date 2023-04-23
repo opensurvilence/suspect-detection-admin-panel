@@ -11,7 +11,15 @@ const Contacts = () => {
 
   const columns = [
     { field: "id", headerName: "ID", flex: 0.5 },
-    { field: "registrarId", headerName: "Registrar ID" },
+    // {field:"imageURL", headerName:"Image",type:"image",flex:1,cellClassName: "image-column--cell"},
+    {
+      field: "imageURL",
+      headerName: "Image",
+      flex: 1,
+      renderCell: (params) => (
+        <img src="https://th.bing.com/th/id/OIP.8H1m4AFQ4joNiy4Qt7D4awHaHa?w=173&h=195&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="Contact" style={{ height: 50 }} />
+      ),
+    },
     {
       field: "name",
       headerName: "Name",
@@ -33,21 +41,6 @@ const Contacts = () => {
     {
       field: "email",
       headerName: "Email",
-      flex: 1,
-    },
-    {
-      field: "address",
-      headerName: "Address",
-      flex: 1,
-    },
-    {
-      field: "city",
-      headerName: "City",
-      flex: 1,
-    },
-    {
-      field: "zipCode",
-      headerName: "Zip Code",
       flex: 1,
     },
   ];
