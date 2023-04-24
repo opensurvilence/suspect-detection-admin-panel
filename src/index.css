@@ -5,8 +5,9 @@ body,
 #root,
 .app,
 .content {
-  height: 100%;
-  width: 100%;
+  height: 100vh;
+  width: 100vw;
+  /* background-color: #555; */
   font-family: "Source Sans Pro", sans-serif;
 }
 
@@ -32,4 +33,27 @@ body,
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+.overlay {
+  /* position: fixed; */
+  /* top: 0; */
+  /* left: 0; */
+  width: 100vw;
+  height: 100vh;
+  margin-top: 5%;
+  /* background-color: rgba(0, 0, 0, 0.5); */
+  margin-left: 30%;
+  /* z-index: 1; */
+}
+
+/* make the content div centered within the overlay */
+.content-mine {
+  /* position: relative; */
+  /* z-index: 2; */
+  width: 80%;
+  max-width: 600px;
+  padding: 20px;
+  /* background-color: white; */
+  text-align: center;
 }

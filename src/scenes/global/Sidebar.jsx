@@ -137,7 +137,7 @@ const Sidebar = () => {
 
             <Item
               title="Suspects "
-              to="/contacts"
+              to="/suspects"
               icon={<ContactsOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -145,7 +145,7 @@ const Sidebar = () => {
 
             <Item
               title="Add User"
-              to="/form"
+              to="/add/user"
               icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -153,7 +153,7 @@ const Sidebar = () => {
 
             <Item
               title="Delete User"
-              to="/team"
+              to="/delete/user"
               icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

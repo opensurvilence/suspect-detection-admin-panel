@@ -1,20 +1,25 @@
-import { Box, Button, TextField } from "@mui/material";
-import { Formik } from "formik";
-import * as yup from "yup";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import Header from "../../components/Header";
+import { Box } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataContacts } from "../../data/mockData";
+import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
 
-const Form = () => {
-
+const Contacts = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const columns = [
     { field: "id", headerName: "ID", flex: 0.5 },
+    // {field:"imageURL", headerName:"Image",type:"image",flex:1,cellClassName: "image-column--cell"},
+    {
+      field: "imageURL",
+      headerName: "Image",
+      flex: 1,
+      renderCell: (params) => (
+        <img src="https://th.bing.com/th/id/OIP.8H1m4AFQ4joNiy4Qt7D4awHaHa?w=173&h=195&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="Contact" style={{ height: 40, width:40, borderRadius:'50%'}} />
+      ),
+    },
     {
       field: "name",
       headerName: "Name",
@@ -38,23 +43,13 @@ const Form = () => {
       headerName: "Email",
       flex: 1,
     },
-    
   ];
-  // const
-
-  const isNonMobile = useMediaQuery("(min-width:600px)");
-
-  const handleFormSubmit = (values) => {
-    console.log(values);
-  };
-
 
   return (
-    <>
     <Box m="20px">
       <Header
-        title="Users"
-        subtitle="List of Users "
+        title="CONTACTS"
+        subtitle="List of Contacts for Future Reference"
       />
       <Box
         m="40px 0 0 0"
@@ -95,31 +90,7 @@ const Form = () => {
         />
       </Box>
     </Box>
-    </>
   );
 };
 
-const phoneRegExp =
-  /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
-
-const checkoutSchema = yup.object().shape({
-  firstName: yup.string().required("required"),
-  lastName: yup.string().required("required"),
-  email: yup.string().email("invalid email").required("required"),
-  contact: yup
-    .string()
-    .matches(phoneRegExp, "Phone number is not valid")
-    .required("required"),
-  address1: yup.string().required("required"),
-  address2: yup.string().required("required"),
-});
-const initialValues = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  contact: "",
-  address1: "",
-  address2: "",
-};
-
-export default Form;
+export default Contacts;
