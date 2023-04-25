@@ -168,8 +168,8 @@ const Sidebar = () => {
             </Typography>
 
             <Item
-              title="Calendar"
-              to="/calendar"
+              title="Suspect Detector"
+              to="/detect/suspect"
               icon={<CalendarTodayOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

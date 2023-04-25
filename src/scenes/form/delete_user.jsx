@@ -65,7 +65,7 @@ const DeleteForm = () => {
         };
         
         const response = await axios.get(
-          "http://localhost:5000/user/delete",
+          "http://localhost:5000/userdelete",
           {'email':email},
           {headers}
         );
