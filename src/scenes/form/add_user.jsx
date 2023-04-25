@@ -6,7 +6,19 @@ import Header from "../../components/Header";
 import {useState} from "react"
 
 const Form = () => {
+import { useState } from "react";
+import axios from "axios";
+import { Cookie } from "@mui/icons-material";
+import Cookies from "js-cookie";
+const AddForm = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
+  const [userdetails, setUserdetails] = useState({
+    "name":"",
+    "email": "",
+    "phone": "",
+    "password": ""
+  });
+  const [loading, setLoading] = useState(false);
 
   const [userdetails, setUserdetails]=useState({
     name:"",
@@ -49,8 +61,47 @@ const Form = () => {
   });
 
   };
+  const handleChange = (e) => {
+      const { name, value } = e.target;
+      setUserdetails({ ...userdetails, [name]: value });
+  };
+
+  const handleSubmit = async(e) =>{
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const headers = {
+        'Content-Type': 'application/json',
+        'ACCESS_TOKEN': Cookies.get('access_token') 
+      };
+      
+      const response = await axios.post(
+        "http://localhost:5000/user/add",
+        userdetails,
+        {headers}
+      );
+      const data = response.data;
+      console.log(data);
+      if(data.status){
+        alert("user added successfully")
+      }else{
+        alert("failed")
+      }
+      
+    } catch (error) {
+      console.error(error);
+    } finally{
+      setLoading(false);
+      setUserdetails({
+        "name":"",
+        "email": "",
+        "phone": "",
+        "password": ""
+      })
+    }
+  }
   return (
-    <Box m="20px">
+    <Box m="20px" maxWidth={"600px"}>
       <Header title="CREATE USER" subtitle="Create a New User Profile" />
 
       <Formik
@@ -60,15 +111,16 @@ const Form = () => {
         {({
           errors,
           touched,
-          handleBlur,
         }) => (
           <form onSubmit={handleSubmit}>
             <Box
-              display="grid"
+              display="flex"
+              flexDirection={"column"}
+              
               gap="30px"
-              gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+              gridTemplateColumns="repeat(2, minmax(0, 1fr))"
               sx={{
-                "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+                "& > div": { gridColumn: isNonMobile ? undefined : "span 2" },
               }}
             >
               <TextField
@@ -122,11 +174,18 @@ const Form = () => {
                 error={!!touched.address1 && !!errors.address1}
                 helperText={touched.address1 && errors.address1}
                 sx={{ gridColumn: "span 12" }}
+
               />
+             
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
               <Button type="submit" color="secondary" variant="contained">
-                Create New User
+               {
+                loading?
+                   "Creating...":
+                   "Create new user"
+                   
+               } 
               </Button>
             </Box>
           </form>
@@ -149,4 +208,5 @@ const checkoutSchema = yup.object().shape({
     .required("required"),
 });
 
-export default Form;
+
+export default AddForm;
