@@ -15,6 +15,13 @@ import { ColorModeContext, useMode } from "./theme";
 import Cookies from 'js-cookie';
 import Login from "./scenes/login/Login";
 
+import DetectSuspect from "./scenes/detect-suspect/Index";
+import Camera from "./scenes/detect-suspect/Camera";
+import WebcamVideo from "./scenes/detect-suspect/Camera";
+import VideoRecorder from "./scenes/detect-suspect/Camera";
+import FaceRecognition from "./scenes/detect-suspect/Camera";
+import Preview from "./scenes/detect-suspect/Preview";
+
 function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
@@ -41,6 +48,12 @@ function App() {
               <Route path="/invoices" element={<Invoices  />} />
               <Route path="/add/user" element={<AddForm  />} />
               <Route path="/faq" element={<FAQ   />} />
+              <Route path="/detect/suspect" element={
+              <>
+                  <Preview />
+                < FaceRecognition />
+              </>
+              } />
             
             </Routes>
           </main> </>:
