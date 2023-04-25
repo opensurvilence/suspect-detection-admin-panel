@@ -3,30 +3,64 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
+import {useState} from "react"
 
 const Form = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
-  const handleFormSubmit = (values) => {
-    console.log(values);
-  };
+  const [userdetails, setUserdetails]=useState({
+    name:"",
+    email:"",
+    phone:"",
+    password:""
+  });
+  const onChangeUser=(e)=>{
+    e.preventDefault();
+    const {name,value} = e.target;
+    setUserdetails(prev => {
+      return {...prev, [name]: value}
+    })
+    console.log(userdetails);
+  }
 
+  const handleSubmit =(e) => {
+    console.log(userdetails);
+
+    const userdata = userdetails;
+    e.preventDefault();
+    fetch('http://localhost:5000/add/user', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    // insert data to be sent in the request body here
+    userdata
+  })
+})
+  .then(response => response.json())
+  .then(data => {
+    // handle the response data here
+    alert("user added")
+  })
+  .catch(error => {
+    // handle any errors that occur during the request here
+    alert("error occured")
+  });
+
+  };
   return (
     <Box m="20px">
       <Header title="CREATE USER" subtitle="Create a New User Profile" />
 
       <Formik
-        onSubmit={handleFormSubmit}
-        initialValues={initialValues}
+        onSubmit={handleSubmit}
         validationSchema={checkoutSchema}
       >
         {({
-          values,
           errors,
           touched,
           handleBlur,
-          handleChange,
-          handleSubmit,
         }) => (
           <form onSubmit={handleSubmit}>
             <Box
@@ -41,27 +75,14 @@ const Form = () => {
                 fullWidth
                 variant="filled"
                 type="text"
-                label="First Name"
+                label="name"
                 onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.firstName}
-                name="firstName"
+                onChange={onChangeUser}
+                value={userdetails.name}
+                name="name"
                 error={!!touched.firstName && !!errors.firstName}
                 helperText={touched.firstName && errors.firstName}
-                sx={{ gridColumn: "span 2" }}
-              />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Last Name"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.lastName}
-                name="lastName"
-                error={!!touched.lastName && !!errors.lastName}
-                helperText={touched.lastName && errors.lastName}
-                sx={{ gridColumn: "span 2" }}
+                sx={{ gridColumn: "span 12" }}
               />
               <TextField
                 fullWidth
@@ -69,12 +90,12 @@ const Form = () => {
                 type="text"
                 label="Email"
                 onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.email}
+                onChange={onChangeUser}
+                value={userdetails.email}
                 name="email"
                 error={!!touched.email && !!errors.email}
                 helperText={touched.email && errors.email}
-                sx={{ gridColumn: "span 4" }}
+                sx={{ gridColumn: "span 12" }}
               />
               <TextField
                 fullWidth
@@ -82,38 +103,25 @@ const Form = () => {
                 type="text"
                 label="Contact Number"
                 onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.contact}
-                name="contact"
+                onChange={onChangeUser}
+                value={userdetails.phone}
+                name="phone"
                 error={!!touched.contact && !!errors.contact}
                 helperText={touched.contact && errors.contact}
-                sx={{ gridColumn: "span 4" }}
+                sx={{ gridColumn: "span 12" }}
               />
               <TextField
                 fullWidth
                 variant="filled"
-                type="text"
-                label="Address 1"
+                type="password"
+                label="Password"
                 onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.address1}
-                name="address1"
+                onChange={onChangeUser}
+                value={userdetails.password}
+                name="password"
                 error={!!touched.address1 && !!errors.address1}
                 helperText={touched.address1 && errors.address1}
-                sx={{ gridColumn: "span 4" }}
-              />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Address 2"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.address2}
-                name="address2"
-                error={!!touched.address2 && !!errors.address2}
-                helperText={touched.address2 && errors.address2}
-                sx={{ gridColumn: "span 4" }}
+                sx={{ gridColumn: "span 12" }}
               />
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
@@ -139,16 +147,6 @@ const checkoutSchema = yup.object().shape({
     .string()
     .matches(phoneRegExp, "Phone number is not valid")
     .required("required"),
-  address1: yup.string().required("required"),
-  address2: yup.string().required("required"),
 });
-const initialValues = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  contact: "",
-  address1: "",
-  address2: "",
-};
 
 export default Form;

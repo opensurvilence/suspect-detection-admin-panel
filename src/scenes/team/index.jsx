@@ -47,15 +47,15 @@ const Form = () => {
 
   const deleteUserByEmail = async (email) => {
     try {
-      const response = await fetch('/user/delete', {
+      const response = await fetch('http://127.0.0.1:5000/delete/user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email })
+        body: {email}
       });
       const data = await response.json();
-      alert(data.message); // prints success message from backend
+      alert(data); // prints success message from backend
     } catch (error) {
       alert(error);
     }
